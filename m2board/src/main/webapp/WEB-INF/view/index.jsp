@@ -119,6 +119,15 @@
               <p class="mb-0 font-weight-normal text-sm">
                 ${loginMember.name}
               </p>
+              <p class="mb-0 font-weight-normal text-sm">
+                총 방문자 수 : ${totalCounter}
+              </p>
+              <p class="mb-0 font-weight-normal text-sm">
+                오늘 방문자 수 : ${todayCounter}
+              </p>
+              <p class="mb-0 font-weight-normal text-sm">
+                현재 방문자 수 : ${currentCounter}
+              </p>
               <br>
               <a href="${pageContext.request.contextPath}/after/logout" class="btn btn-dark">로그아웃</a>
             </div>
