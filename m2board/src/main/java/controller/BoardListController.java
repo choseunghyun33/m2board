@@ -8,13 +8,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import service.BoardService;
 import service.IBoardService;
-import vo.Member;
 
-@WebServlet("/boardList")
+@WebServlet("/public/boardList")
 public class BoardListController extends HttpServlet {
 	private IBoardService boardService;
 	

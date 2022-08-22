@@ -8,22 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import service.BoardService;
 import service.IBoardService;
 
-@WebServlet("/boardOne")
+@WebServlet("/after/boardOne")
 public class BoardOneController extends HttpServlet {
 	private IBoardService boardService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") == null) { // 로그인 안된 상태
-			response.sendRedirect(request.getContextPath() + "/login");
-			return;
-		}
-		
 		// new
 		this.boardService = new BoardService();
 		

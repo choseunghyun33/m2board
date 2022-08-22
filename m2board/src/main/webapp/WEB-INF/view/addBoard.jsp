@@ -42,7 +42,7 @@
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
+      <a class="navbar-brand m-0" href="${pageContext.request.contextPath}/after/index" target="_blank">
         <img src="${pageContext.request.contextPath}/assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold text-white">Model2 board ver</span>
       </a>
@@ -51,7 +51,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-primary" href="${pageContext.request.contextPath}/boardList">
+          <a class="nav-link text-white active bg-gradient-primary" href="${pageContext.request.contextPath}/public/boardList">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -62,7 +62,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="${pageContext.request.contextPath}/index">
+          <a class="nav-link text-white " href="${pageContext.request.contextPath}/after/index">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>
@@ -70,7 +70,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="${pageContext.request.contextPath}/login">
+          <a class="nav-link text-white " href="${pageContext.request.contextPath}/begin/login">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">login</i>
             </div>
@@ -78,7 +78,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="${pageContext.request.contextPath}/signUp">
+          <a class="nav-link text-white " href="${pageContext.request.contextPath}/begin/signUp">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
@@ -114,7 +114,7 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive p-0">
-               <form method="post" action="<%=request.getContextPath()%>/addBoard">
+               <form method="post" action="${pageContext.request.contextPath}/after/addBoard">
                 <table class="table align-items-center mb-0">
                     <tr>
 						<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">제목</th>

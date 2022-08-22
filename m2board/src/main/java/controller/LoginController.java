@@ -14,18 +14,12 @@ import service.IMemberService;
 import service.MemberService;
 import vo.Member;
 
-@WebServlet("/login")
+@WebServlet("/begin/login")
 public class LoginController extends HttpServlet {
 	private IMemberService memberService;
 	
 	// login form
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") != null) { // 로그인 된 상태
-			response.sendRedirect(request.getContextPath() + "/index");
-			return;
-		}
-		
 		// 포워딩
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/view/login.jsp");
 		rd.forward(request, response);
@@ -34,12 +28,7 @@ public class LoginController extends HttpServlet {
 	// login action
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") != null) { // 로그인 된 상태
-			response.sendRedirect(request.getContextPath() + "/index");
-			return;
-		}
 		
-		request.setCharacterEncoding("UTF-8");
 		// 객체에 값담기
 		Member paramMember = new Member();
 		
@@ -55,12 +44,12 @@ public class LoginController extends HttpServlet {
 		
 		if(member == null) {
 			System.out.println("로그인 실패");
-			response.sendRedirect(request.getContextPath() + "/login");
+			response.sendRedirect(request.getContextPath() + "/begin/login");
 			return;
 		}
 		
 		session.setAttribute("loginMember", member);
-		response.sendRedirect(request.getContextPath() + "/index");
+		response.sendRedirect(request.getContextPath() + "/after/index");
 	}
 
 }

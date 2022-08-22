@@ -45,7 +45,7 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid ps-2 pe-0">
-            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="${pageContext.request.contextPath}/index">
+            <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="${pageContext.request.contextPath}/begin/login">
               Model2 board ver
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,25 +58,25 @@
             <div class="collapse navbar-collapse" id="navigation">
               <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="${pageContext.request.contextPath}/boardList">
+                  <a class="nav-link d-flex align-items-center me-2 active" aria-current="page" href="${pageContext.request.contextPath}/public/boardList">
                     <i class="fa fa-list opacity-6 text-dark me-1"></i>
                     Board
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/index">
+                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/after/index">
                     <i class="fa fa-user opacity-6 text-dark me-1"></i>
                     Profile
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/signUp">
+                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/begin/signUp">
                     <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
                     Sign Up
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/login">
+                  <a class="nav-link me-2" href="${pageContext.request.contextPath}/begin/login">
                     <i class="fas fa-key opacity-6 text-dark me-1"></i>
                     Sign In
                   </a>
@@ -107,7 +107,7 @@
                 </div>
               </div>
               <div class="card-body">
-                <form role="form" class="text-start" method="post" action="${pageContext.request.contextPath}/login">
+                <form role="form" class="text-start" method="post" action="${pageContext.request.contextPath}/begin/login">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Id</label>
                     <input type="text" name="id" class="form-control">
@@ -121,7 +121,7 @@
                   </div>
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
-                    <a href="${pageContext.request.contextPath}/signUp" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                    <a href="${pageContext.request.contextPath}/begin/signUp" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
                 </form>
               </div>

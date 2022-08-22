@@ -13,17 +13,15 @@ import service.NiceService;
 import vo.Member;
 import vo.Nice;
 
-@WebServlet("/addNice")
+@WebServlet("/after/addNice")
 public class AddNiceController extends HttpServlet {
 	private INiceService niceService;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 세션가져오기
 		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") == null) { // 로그인 안된 상태
-			response.sendRedirect(request.getContextPath() + "/login");
-			return;
-		}
 		
+		// new
 		this.niceService = new NiceService();
 		
 		// 값 받기
@@ -36,6 +34,6 @@ public class AddNiceController extends HttpServlet {
 		this.niceService.addNice(nice);
 
 		// 브라우저(클라이언트)에게 리다이렉트 요청
-		response.sendRedirect(request.getContextPath() + "/boardList");
+		response.sendRedirect(request.getContextPath() + "/public/boardList");
 	}
 }

@@ -12,31 +12,21 @@ import service.BoardService;
 import service.IBoardService;
 import vo.Board;
 								
-@WebServlet("/addBoard")
+@WebServlet("/after/addBoard")
 public class AddBoardController extends HttpServlet {
 	private IBoardService boardService;
 	
 	// add
 	// C -> V
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") == null) { // 로그인 안된 상태
-			response.sendRedirect(request.getContextPath() + "/login");
-			return;
-		}
-		
+		// forwarding
 		request.getRequestDispatcher("/WEB-INF/view/addBoard.jsp").forward(request, response);
 	}
 	
 	
 	// action
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if(session.getAttribute("loginMember") == null) { // 로그인 안된 상태
-			response.sendRedirect(request.getContextPath() + "/login");
-			return;
-		}
-		
+		// new
 		this.boardService = new BoardService();
 		
 		// 값 받기
@@ -49,6 +39,6 @@ public class AddBoardController extends HttpServlet {
 		this.boardService.addBoard(board);
 		
 		// 재요청 - 새로운 컨트롤러
-		response.sendRedirect(request.getContextPath() + "/boardList");
+		response.sendRedirect(request.getContextPath() + "/public/boardList");
 	}
 }
