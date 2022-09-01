@@ -13,7 +13,9 @@ public interface IBoardDao {
 	
 	int selectBoardCnt(Connection conn) throws Exception;
 	
-	int updateReadCnt(Connection conn, int BoardNo) throws Exception;
+	int updateplusReadCnt(Connection conn, int BoardNo) throws Exception;
+	
+	int updateminusReadCnt(Connection conn, int BoardNo) throws Exception;
 	
 	int insertBoard(Connection conn, Board board) throws Exception;
 }

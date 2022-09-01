@@ -122,7 +122,7 @@ public class BoardService implements IBoardService {
 			}
 			
 			// 2. 조회수 메서드
-			int row = this.boardDao.updateReadCnt(conn, boardNo);
+			int row = this.boardDao.updateplusReadCnt(conn, boardNo);
 			
 			// 제대로 들어오지 못함 exception 발생시키기
 			if(row == 0) {

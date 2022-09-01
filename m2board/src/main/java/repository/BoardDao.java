@@ -135,7 +135,7 @@ public class BoardDao implements IBoardDao {
 	}
 
 	@Override
-	public int updateReadCnt(Connection conn, int BoardNo) throws Exception {
+	public int updateplusReadCnt(Connection conn, int BoardNo) throws Exception {
 		int row = 0;
 		
 		// 쿼리
@@ -179,6 +179,33 @@ public class BoardDao implements IBoardDao {
 			stmt.setString(3, board.getContent());
 			// 디버깅
 			System.out.println("BoardDao.java insertBoard stmt" + stmt);
+			
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}	
+		
+		return row;
+	}
+
+	@Override
+	public int updateminusReadCnt(Connection conn, int BoardNo) throws Exception {
+		int row = 0;
+		
+		// 쿼리
+		String sql = "update board set read_cnt = read_cnt + 1 where board_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, BoardNo);
+			// 디버깅
+			System.out.println("BoardDao.java updateReadCnt stmt" + stmt);
 			
 			// 쿼리실행
 			row = stmt.executeUpdate();

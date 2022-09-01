@@ -25,15 +25,17 @@ public class AddNiceController extends HttpServlet {
 		this.niceService = new NiceService();
 		
 		// 값 받기
+		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+		
 		Nice nice = new Nice();
 		
-		nice.setBoardNo(Integer.parseInt(request.getParameter("boardNo")));
+		nice.setBoardNo(boardNo);
 		nice.setId(((Member) session.getAttribute("loginMember")).getId());
 		
 		// 메서드 실행 - 리턴값 없음
 		this.niceService.addNice(nice);
 
 		// 브라우저(클라이언트)에게 리다이렉트 요청
-		response.sendRedirect(request.getContextPath() + "/public/boardList");
+		response.sendRedirect(request.getContextPath() + "/after/boardOne?boardNo=" + boardNo);
 	}
 }

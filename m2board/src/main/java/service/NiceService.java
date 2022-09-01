@@ -3,6 +3,7 @@ package service;
 import java.sql.Connection;
 
 import commons.DBUtil;
+import repository.BoardDao;
 import repository.INiceDao;
 import repository.NiceDao;
 import vo.Nice;
@@ -32,6 +33,17 @@ public class NiceService implements INiceService {
 			if(row == 0) {
 				// 디버깅
 				System.out.println("NiceService.java addNice insertNice() 실패");
+				
+				throw new Exception();
+			}
+			
+			// (좋아요 시 조회수 증가 방지)
+			int row2 = new BoardDao().updateminusReadCnt(conn, row);
+			
+			// 분기 (문제 있을경우 익셉션 발생)
+			if(row2 == 0) {
+				// 디버깅
+				System.out.println("NiceService.java addNice updateminusReadCnt() 실패");
 				
 				throw new Exception();
 			}

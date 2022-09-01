@@ -147,7 +147,7 @@
 					</tr>
 					<tr>
 						<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-							<a href="${pageContext.request.contextPath}/after/addNice?boardNo=${m.boardNo}">
+							<a href="${pageContext.request.contextPath}/after/addNice?boardNo=${m.boardNo}" class="btn bg-gradient-primary">
 								좋아요
 							</a>
 						</th>
@@ -156,10 +156,20 @@
                         </td>
 					</tr>
 					<tr>
-						<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">내용<td class="align-middle text-center">
+						<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">내용</th>
+						<td class="align-middle text-center">
                         	<span class="text-secondary text-xs font-weight-bold">${m.content}</span>
                         </td>
 					</tr>
+					<c:if test="${loginMember.id eq m.id}">
+	                	<tr>
+	                		<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
+	                		<td class="align-middle text-center">
+		                		<a href="" class="btn btn-dark">수정</a>
+		                		<a href="" class="btn btn-dark">삭제</a>
+	                		</td>
+	                	</tr>
+                	</c:if>
                 </table>
               </div>
             </div>

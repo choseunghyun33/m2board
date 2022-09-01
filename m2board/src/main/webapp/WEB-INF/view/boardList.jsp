@@ -134,7 +134,11 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">${l.boardNo}</h6>
+                             <h6 class="mb-0 text-sm">
+                                <a href="${pageContext.request.contextPath}/after/boardOne?boardNo=${l.boardNo}">
+                              	  ${l.boardNo}
+                              	</a>
+                             </h6>
                           </div>
                         </div>
                       </td>
