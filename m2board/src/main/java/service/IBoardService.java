@@ -14,4 +14,10 @@ public interface IBoardService {
 	// 반환값 : void
 	// 기능 : 글추가
 	void addBoard(Board board);
+	// 반환값 : void
+	// 기능 : 글삭제
+	void removeBoard(int boardNo);
+	// 반환값 : void
+	// 기능 : 글수정
+	void modifyBoard(Board board);
 }

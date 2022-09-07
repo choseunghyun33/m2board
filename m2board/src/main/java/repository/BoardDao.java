@@ -11,7 +11,50 @@ import java.util.Map;
 import vo.Board;
 
 public class BoardDao implements IBoardDao {
-
+	// 상세보기 메서드
+	@Override
+	public Map<String,Object> selectBoardOneByBoardNo(Connection conn, int BoardNo) throws Exception {
+		// 리턴값 초기화
+		Map<String,Object> m = null;
+				
+		// 쿼리
+		String sql = "select board_no boardNo, title, id, content, create_date createDate, read_cnt readCnt, ifnull(n.cnt,0) nice from board left join (select board_no, count(*) cnt from nice group by board_no) n using(board_no) where board_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, BoardNo);
+			// 디버깅
+			System.out.println("BoardDao.java selectBoardOneByBoardNo stmt" + stmt);
+			
+			// 쿼리실행
+			rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				m = new HashMap<>();
+				m.put("boardNo", rs.getInt("boardNo"));
+				m.put("title", rs.getString("title"));
+				m.put("id", rs.getString("id"));
+				m.put("content", rs.getString("content"));
+				m.put("createDate", rs.getString("createDate"));
+				m.put("readCnt", rs.getInt("readCnt"));
+				m.put("nice", rs.getInt("nice"));
+				
+				// 디버깅
+				System.out.println("BoardDao.java selectBoardListByPage map" + m.toString());
+			}
+		} finally {
+			if(rs != null) { rs.close(); }
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return m;
+	}
+	// 전체보기
 	@Override
 	public List<Map<String,Object>> selectBoardListByPage(Connection conn, int rowPerPage, int beginRow) throws Exception {
 		// 리턴값 초기화
@@ -55,7 +98,7 @@ public class BoardDao implements IBoardDao {
 		
 		return list;
 	}
-
+	// 페이지를 위한 카운트
 	@Override
 	public int selectBoardCnt(Connection conn) throws Exception {
 		// 리턴값 초기화
@@ -90,50 +133,7 @@ public class BoardDao implements IBoardDao {
 		
 		return boardCnt;
 	}
-
-	@Override
-	public Map<String,Object> selectBoardOneByBoardNo(Connection conn, int BoardNo) throws Exception {
-		// 리턴값 초기화
-		Map<String,Object> m = null;
-				
-		// 쿼리
-		String sql = "select board_no boardNo, title, id, content, create_date createDate, read_cnt readCnt, ifnull(n.cnt,0) nice from board left join (select board_no, count(*) cnt from nice group by board_no) n using(board_no) where board_no = ?";
-		
-		// 초기화
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		try {
-			stmt = conn.prepareStatement(sql);
-			// stmt setter
-			stmt.setInt(1, BoardNo);
-			// 디버깅
-			System.out.println("BoardDao.java selectBoardOneByBoardNo stmt" + stmt);
-			
-			// 쿼리실행
-			rs = stmt.executeQuery();
-			
-			if(rs.next()) {
-				m = new HashMap<>();
-				m.put("boardNo", rs.getInt("boardNo"));
-				m.put("title", rs.getString("title"));
-				m.put("id", rs.getString("id"));
-				m.put("content", rs.getString("content"));
-				m.put("createDate", rs.getString("createDate"));
-				m.put("readCnt", rs.getInt("readCnt"));
-				m.put("nice", rs.getInt("nice"));
-				
-				// 디버깅
-				System.out.println("BoardDao.java selectBoardListByPage map" + m.toString());
-			}
-		} finally {
-			if(rs != null) { rs.close(); }
-			if(stmt != null) { stmt.close(); }
-		}
-		
-		return m;
-	}
-
+	// 조회수 늘리기
 	@Override
 	public int updateplusReadCnt(Connection conn, int BoardNo) throws Exception {
 		int row = 0;
@@ -160,7 +160,34 @@ public class BoardDao implements IBoardDao {
 		
 		return row;
 	}
-
+	// 좋아요 누를시 조회수 감소
+	@Override
+	public int updateminusReadCnt(Connection conn, int BoardNo) throws Exception {
+		int row = 0;
+		
+		// 쿼리
+		String sql = "update board set read_cnt = read_cnt + 1 where board_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, BoardNo);
+			// 디버깅
+			System.out.println("BoardDao.java updateReadCnt stmt" + stmt);
+			
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}	
+		
+		return row;
+	}
+	// 글 쓰기
 	@Override
 	public int insertBoard(Connection conn, Board board) throws Exception {
 		int row = 0;
@@ -189,23 +216,52 @@ public class BoardDao implements IBoardDao {
 		
 		return row;
 	}
-
+	// 글 삭제
 	@Override
-	public int updateminusReadCnt(Connection conn, int BoardNo) throws Exception {
+	public int deleteBoard(Connection conn, int boardNo) throws Exception {
 		int row = 0;
 		
 		// 쿼리
-		String sql = "update board set read_cnt = read_cnt + 1 where board_no = ?";
+		String sql = "delete from board where board_no = ?";
 		
 		// 초기화
 		PreparedStatement stmt = null;
 		
 		try {
 			stmt = conn.prepareStatement(sql);
-			// stmt setter
-			stmt.setInt(1, BoardNo);
+			//stmt setter
+			stmt.setInt(1, boardNo);
 			// 디버깅
-			System.out.println("BoardDao.java updateReadCnt stmt" + stmt);
+			System.out.println("BoardDao.java deleteBoard stmt" + stmt);
+			
+			// 쿼리실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}	
+		
+		return row;
+	}
+	// 글 수정
+	@Override
+	public int updateBoard(Connection conn, Board board) throws Exception {
+		int row = 0;
+		
+		// 쿼리
+		String sql = "update board set title = ?, content = ? where board_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			//stmt setter
+			stmt.setString(1, board.getTitle());
+			stmt.setString(2, board.getContent());
+			stmt.setInt(3, board.getBoardNo());
+			// 디버깅
+			System.out.println("BoardDao.java updateBoard stmt" + stmt);
 			
 			// 쿼리실행
 			row = stmt.executeUpdate();

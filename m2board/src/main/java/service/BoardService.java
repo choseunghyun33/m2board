@@ -8,13 +8,17 @@ import java.util.Map;
 import commons.DBUtil;
 import repository.BoardDao;
 import repository.IBoardDao;
+import repository.INiceDao;
+import repository.NiceDao;
 import vo.Board;
 
 public class BoardService implements IBoardService {
 	private DBUtil dbUtil;
 	private IBoardDao boardDao;
+	private INiceDao niceDao;
 	
-	// 리턴값 : List<Board>, int lastPage
+	// 반환값 : List<Map<String, Object>>, int lastPage
+	// 기능 : 리스트
 	@Override
 	public Map<String, Object> getBoardList(int rowPerPage, int currentPage) {
 		// 리턴값 초기화
@@ -92,7 +96,9 @@ public class BoardService implements IBoardService {
 		
 		return map;
 	}
-
+	
+	// 반환값 : Map
+	// 기능 : 상세보기
 	@Override
 	public Map<String, Object> getBoardOneByBoardNo(int boardNo) {
 		// 리턴값 초기화
@@ -156,7 +162,8 @@ public class BoardService implements IBoardService {
 		return m;
 	}
 
-	
+	// 반환값 : void
+	// 기능 : 글추가
 	@Override
 	public void addBoard(Board board) {
 		// 초기화
@@ -172,13 +179,125 @@ public class BoardService implements IBoardService {
 			// 자동 커밋해제
 			conn.setAutoCommit(false);
 			
-			// 1. updateNice 메서드 - 1리턴 성공
+			// 1. insertBoard 메서드 - 1리턴 성공
 			int row = this.boardDao.insertBoard(conn, board);
 			
 			// 제대로 들어오지 못함 exception 발생시키기
 			if(row == 0) {
 				// 디버깅
 				System.out.println("BoardService.java addBoard insertBoard() : 실패");
+				throw new Exception();
+			}
+			
+			// 2. 문제 없으면 커밋
+			conn.commit();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 문제 있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 4. 자원해제
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	// 반환값 : void
+	// 기능 : 글삭제
+	@Override
+	public void removeBoard(int boardNo) {
+		// 초기화
+		Connection conn = null;
+		this.dbUtil = new DBUtil();
+		this.boardDao = new BoardDao();
+		this.niceDao = new NiceDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("BoardService.java removeBoard conn : " + conn);
+			
+			// 자동 커밋해제
+			conn.setAutoCommit(false);
+			
+			// 디버깅
+			System.out.println("BoardService.java removeBoard boardNo : " + boardNo);
+			
+			// 1. deleteNice 메서드 - 1리턴 성공
+			int row1 = this.niceDao.deleteNice(conn, boardNo);
+			
+			// 제대로 들어오지 못함 exception 발생시키기
+			if(row1 == 0) {
+				// 디버깅
+				System.out.println("BoardService.java removeBoard deleteNice() : 삭제할것이 없음");
+			}
+						
+			// 2. deleteBoard 메서드 - 1리턴 성공
+			int row2 = this.boardDao.deleteBoard(conn, boardNo);
+			
+			// 제대로 들어오지 못함 exception 발생시키기
+			if(row2 == 0) {
+				// 디버깅
+				System.out.println("BoardService.java removeBoard deleteBoard() : 실패");
+				throw new Exception();
+			}
+
+			// 3. 문제 없으면 커밋
+			conn.commit();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			// 문제 있으면 롤백
+			try {
+				conn.rollback();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			// 4. 자원해제
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	// 반환값 : void
+	// 기능 : 글수정
+	@Override
+	public void modifyBoard(Board board) {
+		// 초기화
+		Connection conn = null;
+		this.dbUtil = new DBUtil();
+		this.boardDao = new BoardDao();
+		
+		try {
+			conn = this.dbUtil.getConnection();
+			// 디버깅
+			System.out.println("BoardService.java modifyBoard conn : " + conn);
+			
+			// 자동 커밋해제
+			conn.setAutoCommit(false);
+			
+			// 1. updateNice 메서드 - 1리턴 성공
+			int row = this.boardDao.updateBoard(conn, board);
+			
+			// 제대로 들어오지 못함 exception 발생시키기
+			if(row == 0) {
+				// 디버깅
+				System.out.println("BoardService.java modifyBoard updateBoard() : 실패");
 				throw new Exception();
 			}
 			

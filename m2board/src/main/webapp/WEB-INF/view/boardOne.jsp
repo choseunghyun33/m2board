@@ -165,8 +165,8 @@
 	                	<tr>
 	                		<th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">수정/삭제</th>
 	                		<td class="align-middle text-center">
-		                		<a href="" class="btn btn-dark">수정</a>
-		                		<a href="" class="btn btn-dark">삭제</a>
+		                		<a href="${pageContext.request.contextPath}/after/modifyBoard?boardNo=${m.boardNo}" class="btn btn-dark">수정</a>
+		                		<a href="${pageContext.request.contextPath}/after/removeBoard?boardNo=${m.boardNo}" class="btn btn-dark">삭제</a>
 	                		</td>
 	                	</tr>
                 	</c:if>

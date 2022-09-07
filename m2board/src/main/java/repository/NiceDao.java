@@ -37,4 +37,33 @@ public class NiceDao implements INiceDao {
 		return row;
 	}
 
+	@Override
+	public int deleteNice(Connection conn, int boardNo) throws Exception {
+		// 리턴값 초기화
+		int row = 0;
+		
+		// 쿼리
+		String sql = "delete from nice where board_no = ?";
+		
+		// 초기화
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement(sql);
+			// stmt setter
+			stmt.setInt(1, boardNo);
+			
+			// 디버깅
+			System.out.println("NiceDao.java deleteNice stmt : " + stmt);
+			
+			// 쿼리 실행
+			row = stmt.executeUpdate();
+			
+		} finally {
+			if(stmt != null) { stmt.close(); }
+		}
+		
+		return row;
+	}
+
 }
